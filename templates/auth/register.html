@@ -1,0 +1,94 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+    <div class="span9">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Home</a> <span class="divider">/</span></li>
+            <li class="active">Registration</li>
+        </ul>
+        <h3> Registration</h3>
+        <div class="well">
+            <!--
+            <div class="alert alert-info fade in">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+             </div>
+            <div class="alert fade in">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+             </div>
+             <div class="alert alert-block alert-error fade in">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Lorem Ipsum is simply</strong> dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+             </div> -->
+            <form class="form-horizontal" action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <h4>Your personal information</h4>
+                <div class="control-group">
+                    <label class="control-label" for="inputFname1">First name <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="text" id="inputFname1" placeholder="First Name" name="first_name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputLnam">Last name <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="text" id="inputLnam" placeholder="Last Name" name="last_name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input_email">Email <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="text" id="input_email" placeholder="Email" name="email" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword1">Password <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="password" id="inputPassword1" placeholder="Password" name="password1" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword2">Password <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="password" id="inputPassword2" placeholder="Confirm password" name="password2"
+                               required>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="aditionalInfo">Your address</label>
+                    <div class="controls">
+                        <textarea name="address" id="aditionalInfo" cols="26"
+                                  rows="3" placeholder="Address"></textarea>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="mobile">Phone number</label>
+                    <div class="controls">
+                        <input type="text" name="phone" id="mobile" placeholder="Phone number">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <div class="alert alert-block alert-error fade in">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>{{ field.label_tag }}</strong>
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+
+                    <div class="controls">
+                        <input class="btn btn-large btn-success" type="submit" value="Register">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load check %}
+{% block title %}
+    BootShop online Shopping Cart
+{% endblock %}
+
+{% block for_index %}
+    <div id="carouselBlk">
+        <div id="myCarousel" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="item">
+                    <div class="container">
+                        <a href="register.html"><img style="width:100%"
+                                                     src="{% static 'themes/images/carousel/1.png' %}"
+                                                     alt="special offers"></a>
+                        <div class="carousel-caption">
+                            <h4>Second Thumbnail label</h4>
+                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
+                                gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="container">
+                        <a href="register.html"><img style="width:100%"
+                                                     src="{% static 'themes/images/carousel/2.png' %}" alt=""></a>
+                        <div class="carousel-caption">
+                            <h4>Second Thumbnail label</h4>
+                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
+                                gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="container">
+                        <a href="register.html"><img src="{% static 'themes/images/carousel/3.png' %}" alt=""></a>
+                        <div class="carousel-caption">
+                            <h4>Second Thumbnail label</h4>
+                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
+                                gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="item active">
+                    <div class="container">
+                        <a href="register.html"><img src="{% static 'themes/images/carousel/4.png' %}" alt=""></a>
+                        <div class="carousel-caption">
+                            <h4>Second Thumbnail label</h4>
+                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
+                                gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="container">
+                        <a href="register.html"><img src="{% static 'themes/images/carousel/5.png' %}" alt=""></a>
+                        <div class="carousel-caption">
+                            <h4>Second Thumbnail label</h4>
+                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
+                                gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="container">
+                        <a href="register.html"><img src="{% static 'themes/images/carousel/6.png' %}" alt=""></a>
+                        <div class="carousel-caption">
+                            <h4>Second Thumbnail label</h4>
+                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
+                                gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="span9">
+        {% if featured_products_count > 7 %}
+            <div class="well well-small">
+                <h4>Featured Products <small class="pull-right">16 featured products</small></h4>
+                <div class="row-fluid">
+                    <div id="featured" class="carousel slide">
+                        <div class="carousel-inner">
+                            {% for value in featured_products %}
+                                <div class="item {% if forloop.first %}active{% endif %}">
+                                    <ul class="thumbnails">
+                                        {% for product in value %}
+                                            <li class="span3">
+                                                <div class="thumbnail">
+                                                    <a href="product_details.html"><img
+                                                            src="media/{{ product.image }}"
+                                                            alt=""></a>
+                                                    <div class="caption">
+                                                        <h5>{{ product.name }}</h5>
+                                                        <h4><a class="btn" href="product_details.html">VIEW</a> <span
+                                                                class="pull-right">${{ product.price|floatformat:2 }}</span>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="left carousel-control" href="#featured" data-slide="prev">‹</a>
+                        <a class="right carousel-control" href="#featured" data-slide="next">›</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <h4>Latest Products </h4>
+        <ul class="thumbnails">
+            {% for product in products %}
+                <li class="span3">
+                    <div class="thumbnail">
+                        <a href="product_details.html"><img src="media/{{ product.image }}" alt=""></a>
+                        <div class="caption">
+                            <h5>{{ product.name }}</h5>
+                            <p>
+                                {{ product.description|truncatechars:100|safe }}
+                            </p>
+
+                            <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
+                                    class="icon-zoom-in"></i></a> <a class="btn" href="#">
+                                {% if product.id|has_cart:user %}
+                                    Added{% else %}Add to{% endif %}<i
+                                    class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
+                                                                           href="#">${{ product.price|floatformat:2 }}</a>
+                            </h4>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if products_count > 9 %}
+            <style>
+                .iksweb {
+                    -webkit-transition-duration: 0.4s; /* Safari */
+                    transition-duration: 0.4s;
+                    display: inline-block;
+                    cursor: pointer;
+                    font-size: 44px;
+                    text-decoration: none;
+                    padding: 20px 288px;
+                    color: black;
+                    background: #ffffff;
+                    border-radius: 0;
+                    border: 1px solid #354251;
+                }
+
+                .iksweb:hover {
+                    background-color: rgb(37, 150, 190); /* Green */
+                    color: white;
+                    border: 1px solid #354251;
+                    transition: all 840ms ease;
+                }
+            </style>
+            <a class="iksweb" href="{% url 'products' %}" rel="nofollow" style="text-decoration: none;">Other
+                products</a>
+        {% endif %}
+    </div>
+{% endblock %}

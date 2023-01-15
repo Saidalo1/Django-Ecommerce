@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load check %}
+
+{% block title %}
+    BootShop Products
+{% endblock %}
+
+{% block content %}
+    <div class="span9">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
+            <li class="active">All Products</li>
+        </ul>
+        <h3> All Products <small class="pull-right"> {{ products_count }} product{% if products_count > 1 %}s
+            are{% else %} is{% endif %} available </small></h3>
+        <hr class="soft">
+        <p>
+            Nowadays the lingerie industry is one of the most successful business spheres.We always stay in touch with
+            the latest fashion tendencies - that is why our goods are so popular and we have a great number of faithful
+            customers all over the country.
+        </p>
+        <hr class="soft">
+        <form class="form-horizontal span6">
+            <div class="control-group">
+                <label class="control-label alignL">Sort By </label>
+                <select>
+                    <option>Product name A - Z</option>
+                    <option>Product name Z - A</option>
+                    <option>Product Stoke</option>
+                    <option>Price Lowest first</option>
+                </select>
+            </div>
+        </form>
+
+        <div id="myTab" class="pull-right">
+            <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
+            <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
+        </div>
+        <br class="clr">
+        <div class="tab-content">
+            <div class="tab-pane" id="listView">
+                {% for product in products %}
+                    <div class="row">
+                        <div class="span2">
+                            <img src="{{ product.image.url }}" alt="">
+                        </div>
+                        <div class="span4">
+                            <h3>{{ product.name }}</h3>
+                            <hr class="soft">
+                            <p>
+                                {{ product.description|truncatechars:125|safe }}
+                            </p>
+                            <a class="btn btn-small pull-right" href="{% url 'product_detail' product.id %}">View
+                                Details</a>
+                            <br class="clr">
+                        </div>
+                        <div class="span3 alignR">
+                            <form class="form-horizontal qtyFrm">
+                                <h3> ${{ product.price|floatformat:2 }}</h3>
+                                <label class="checkbox">
+                                    <input type="checkbox"> Adds product to compair
+                                </label><br>
+
+                                <a href="product_details.html" class="btn btn-large btn-primary"> Add to <i
+                                        class=" icon-shopping-cart"></i></a>
+                                <a href="product_details.html" class="btn btn-large"><i class="icon-zoom-in"></i></a>
+
+                            </form>
+                        </div>
+                    </div>
+                    <hr class="soft">
+                {% endfor %}
+            </div>
+            <div class="tab-pane  active" id="blockView">
+                <ul class="thumbnails">
+                    {% for product in products %}
+                        <li class="span3">
+                            <div class="thumbnail">
+                                <a href="{% url 'product_detail' product.id %}"><img src="{{ product.image.url }}"
+                                                                                     alt=""></a>
+                                <div class="caption">
+                                    <h5>{{ product.name }}</h5>
+                                    <p>
+                                        {{ product.description|truncatechars:125|safe }}
+                                    </p>
+                                    <h4 style="text-align:center"><a class="btn"
+                                                                     href="{% url 'product_detail' product.id %}"> <i
+                                            class="icon-zoom-in"></i></a> <a class="btn" href="#">
+                                        {% if product.id|has_cart:user %}
+                                            Added{% else %}Add to{% endif %}<i
+                                            class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
+                                                                                   href="#">${{ product.price|floatformat:2 }}</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <hr class="soft">
+            </div>
+        </div>
+
+        <a href="compair.html" class="btn btn-large pull-right">Compair Product</a>
+        <div class="pagination">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li><a href="?page={{ page_obj.previous_page_number }}">‹<i class="fa fa-chevron-left"
+                                                                                aria-hidden="true"></i></a></li>
+                {% else %}
+                    <li class="disabled"><span>‹<i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+                {% endif %}
+
+                {% if page_obj.number|add:'-4' > 1 %}
+                    <li><a href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+                {% endif %}
+
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                    <li><a href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">›<i class="fa fa-chevron-right"
+                                                                            aria-hidden="true"></i></a></li>
+                {% else %}
+                    <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true">›</i></span></li>
+                {% endif %}
+            </ul>
+        </div>
+        <br class="clr">
+    </div>
+{% endblock %}

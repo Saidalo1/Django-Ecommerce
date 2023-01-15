@@ -1,0 +1,45 @@
+{% load static %}
+{% load check %}
+<div id="sidebar" class="span3">
+    <div class="well well-small"><a id="myCart" href="product_summary.html"><img
+            src="{% static 'themes/images/ico-cart.png' %}" alt="cart">{{ count_of_cart_objects }} Items in
+        your cart <span
+                class="badge badge-warning pull-right">${{ total_price }}</span></a></div>
+    <ul id="sideManu" class="nav nav-tabs nav-stacked">
+        {% for key, value in categories.items %}
+            <li class="subMenu{% if forloop.first %} open{% endif %}"><a> {{ key }}</a>
+                <ul>
+                    {% for thing in value %}
+                        <li><a class="active" href="products.html"><i
+                                class="icon-chevron-right"></i>{{ thing.0 }}
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+    <br/>
+    {% for product in two_best_products %}
+        <div class="thumbnail">
+            <img src="{{ product.image.url }}" alt="">
+            <div class="caption">
+                <h5>{{ product.name }}</h5>
+                <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
+                        class="icon-zoom-in"></i></a> <a class="btn" href="#">
+                    {% if product|has_cart:user %}
+                        Added{% else %}Add to {% endif %} <i
+                        class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
+                                                               href="#">${{ product.price|floatformat:2 }}</a>
+                </h4>
+            </div>
+        </div>
+        <br/>
+    {% endfor %}
+    <div class="thumbnail">
+        <img src="{% static 'themes/images/payment_methods.png' %}" title="BootShop Payment Methods"
+             alt="Payments Methods">
+        <div class="caption">
+            <h5>Payment Methods</h5>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+﻿{% load static %}
+{% load check %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap style -->
+    <link id="callCss" rel="stylesheet" href="{% static 'themes/bootshop/bootstrap.min.css' %}" media="screen"/>
+    <link href="{% static 'themes/css/base.css' %}" rel="stylesheet" media="screen"/>
+    <!-- Bootstrap style responsive -->
+    <link href="{% static 'themes/css/bootstrap-responsive.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'themes/css/font-awesome.css' %}" rel="stylesheet" type="text/css">
+    <!-- Google-code-prettify -->
+    <link href="{% static 'themes/js/google-code-prettify/prettify.css' %}" rel="stylesheet"/>
+    <!-- fav and touch icons -->
+    <link rel="shortcut icon" href="themes/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="{% static 'themes/images/ico/apple-touch-icon-144-precomposed.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+          href="{% static 'themes/images/ico/apple-touch-icon-114-precomposed.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+          href="{% static 'themes/images/ico/apple-touch-icon-72-precomposed.png' %}">
+    <link rel="apple-touch-icon-precomposed"
+          href="{% static 'themes/images/ico/apple-touch-icon-57-precomposed.png' %}">
+    <style type="text/css" id="enject"></style>
+</head>
+<body>
+{% include 'partial/header.html' %}<!-- Header End====================================================================== -->
+{% block for_index %}
+{% endblock %}
+<div id="mainBody">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar ================================================== -->
+            {% include 'partial/sidebar.html' %}
+            {% block content %}
+            {% endblock %}
+            <!-- Sidebar end=============================================== -->
+        </div>
+    </div>
+</div>
+<!-- Footer ================================================================== -->
+{% include 'partial/footer.html' %}
+<!-- Placed at the end of the document so the pages load faster ============================================= -->
+{% include 'partial/_javascript.html' %}
+<!-- Themes switcher section ============================================================================================= -->
+<div id="secectionBox">
+    <link rel="stylesheet" href="{% static "themes/switch/themeswitch.css" %}" type="text/css" media="screen"/>
+    <script src="{% static "themes/switch/theamswitcher.js" %}" type="text/javascript" charset="utf-8"></script>
+    <div id="themeContainer">
+        <div id="hideme" class="themeTitle">Style Selector</div>
+        <div class="themeName">Oregional Skin</div>
+        <div class="images style">
+            <a href="themes/css/#" name="bootshop"><img src="{% static "themes/switch/images/clr/bootshop.png" %}"
+                                                        alt="bootstrap business templates" class="active"></a>
+            <a href="themes/css/#" name="businessltd"><img src="{% static "themes/switch/images/clr/businessltd.png" %}"
+                                                           alt="bootstrap business templates" class="active"></a>
+        </div>
+        <div class="themeName">Bootswatch Skins (11)</div>
+        <div class="images style">
+            <a href="themes/css/#" name="amelia" title="Amelia"><img
+                    src="{% static "themes/switch/images/clr/amelia.png" %}"
+                    alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="spruce" title="Spruce"><img
+                    src="{% static "themes/switch/images/clr/spruce.png" %}"
+                    alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="superhero" title="Superhero"><img
+                    src="{% static "themes/switch/images/clr/superhero.png" %}"
+                    alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="cyborg"><img src="{% static "themes/switch/images/clr/cyborg.png" %}"
+                                                      alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="cerulean"><img src="{% static "themes/switch/images/clr/cerulean.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="journal"><img src="{% static "themes/switch/images/clr/journal.png" %}"
+                                                       alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="readable"><img src="{% static "themes/switch/images/clr/readable.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="simplex"><img src="{% static "themes/switch/images/clr/simplex.png" %}"
+                                                       alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="slate"><img src="{% static "themes/switch/images/clr/slate.png" %}"
+                                                     alt="bootstrap business templates"></a>
+            <a href=1"themes/css/#" name="spacelab"><img src="{% static "themes/switch/images/clr/spacelab.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href=1"themes/css/#" name="united"><img src="{% static "themes/switch/images/clr/united.png" %}"
+                                                       alt="bootstrap business templates"></a>
+            <p style="margin:0;line-height:normal;margin-left:-10px;display:none;"><small>These are just examples and
+                you can build your own color scheme in the backend.</small></p>
+        </div>
+        <div class="themeName">Background Patterns</div>
+        <div class="images patterns">
+            <a href="themes/css/#" name="pattern1"><img src="{% static "themes/switch/images/pattern/pattern1.png" %}"
+                                                        alt="bootstrap business templates" class="active"></a>
+            <a href="themes/css/#" name="pattern2"><img src="{% static "themes/switch/images/pattern/pattern2.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern3"><img src="{% static "themes/switch/images/pattern/pattern3.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern4"><img src="{% static "themes/switch/images/pattern/pattern4.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern5"><img src="{% static "themes/switch/images/pattern/pattern5.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern6"><img src="{% static "themes/switch/images/pattern/pattern6.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern7"><img src="{% static "themes/switch/images/pattern/pattern7.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern8"><img src="{% static "themes/switch/images/pattern/pattern8.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern9"><img src="{% static "themes/switch/images/pattern/pattern9.png" %}"
+                                                        alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern10"><img src="{% static "themes/switch/images/pattern/pattern10.png" %}"
+                                                         alt="bootstrap business templates"></a>
+
+            <a href="themes/css/#" name="pattern11"><img src="{% static "themes/switch/images/pattern/pattern11.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern12"><img
+                    src="{% static "themes/switch/images/pattern/pattern12.png" %}"
+                    alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern13"><img src="{% static "themes/switch/images/pattern/pattern13.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern14"><img src="{% static "themes/switch/images/pattern/pattern14.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern15"><img src="{% static "themes/switch/images/pattern/pattern15.png" %}"
+                                                         alt="bootstrap business templates"></a>
+
+            <a href="themes/css/#" name="pattern16"><img src="{% static "themes/switch/images/pattern/pattern16.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern17"><img src="{% static "themes/switch/images/pattern/pattern17.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern18"><img src="{% static "themes/switch/images/pattern/pattern18.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern19"><img src="{% static "themes/switch/images/pattern/pattern19.png" %}"
+                                                         alt="bootstrap business templates"></a>
+            <a href="themes/css/#" name="pattern20"><img src="{% static "themes/switch/images/pattern/pattern20.png" %}"
+                                                         alt="bootstrap business templates"></a>
+
+        </div>
+    </div>
+</div>
+<span id="themesBtn"></span>
+{% block for_detail %}
+{% endblock %}
+</body>
+</html>

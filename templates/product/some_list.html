@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load check %}
+{% block content %}
+    <div class="span9">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
+            <li class="active">Central Processing Units</li>
+        </ul>
+        <h3> Central Processing Unit <small class="pull-right"> {{ some_product_count }} products are available </small>
+        </h3>
+        <hr class="soft">
+        <p>
+            Nowadays the lingerie industry is one of the most successful business spheres.We always stay in touch with
+            the latest fashion tendencies - that is why our goods are so popular and we have a great number of faithful
+            customers all over the country.
+        </p>
+        <hr class="soft">
+        <form class="form-horizontal span6">
+            <div class="control-group">
+                <label class="control-label alignL">Sort By </label>
+                <label>
+                    <select>
+                        <option>Product name A - Z</option>
+                        <option>Product name Z - A</option>
+                        <option>Product Stoke</option>
+                        <option>Price Lowest first</option>
+                    </select>
+                </label>
+            </div>
+        </form>
+
+        <div id="myTab" class="pull-right">
+            <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
+            <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
+        </div>
+        <br class="clr">
+        <div class="tab-content">
+            <div class="tab-pane" id="listView">
+                {% for some in some_list %}
+                    <div class="row">
+                        <div class="span2">
+                            <img src="{{ some.image.url }}" alt="">
+                        </div>
+                        <div class="span4">
+                            <h3>{{ some.name }}</h3>
+                            <hr class="soft">
+                            <p>
+                                {{ some.description }}
+                            </p>
+                            <a class="btn btn-small pull-right" href="product_details.html">View Details</a>
+                            <br class="clr">
+                        </div>
+                        <div class="span3 alignR">
+                            <form class="form-horizontal qtyFrm">
+                                <h3> ${{ some.price|floatformat:2 }}</h3>
+                                <label class="checkbox">
+                                    <input type="checkbox"> Adds product to compair
+                                </label><br>
+
+                                <a href="product_details.html" class="btn btn-large btn-primary"> Add to <i
+                                        class=" icon-shopping-cart"></i></a>
+                                <a href="product_details.html" class="btn btn-large"><i class="icon-zoom-in"></i></a>
+
+                            </form>
+                        </div>
+                    </div>
+                    <hr class="soft">
+                {% endfor %}
+            </div>
+
+            <div class="tab-pane  active" id="blockView">
+                <ul class="thumbnails">
+                    {% for some in some_list %}
+                        <li class="span3">
+                            <div class="thumbnail">
+                                <a href="product_details.html"><img src="{{ some.image.url }}" alt=""></a>
+                                <div class="caption">
+                                    <h5>{{ some.name }}</h5>
+                                    <p>
+                                        {{ some.description|truncatechars:50 }}
+                                    </p>
+                                    <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
+                                            class="icon-zoom-in"></i></a> <a class="btn" href="#">
+                                        {% if some|has_cart:user %}
+                                            Added{% else %}Add to cart{% endif %}<i
+                                            class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
+                                                                                   href="#">${{ some.price|floatformat:2 }}</a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <hr class="soft">
+            </div>
+        </div>
+
+        <a href="compair.html" class="btn btn-large pull-right">Compair Product</a>
+        {% if is_paginated %}
+            <div class="pagination">
+                <ul>
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}">‹</a></li>
+                    {% endif %}
+                    {% if page_obj.number|add:'-4' > 1 %}
+                        <li><a href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+                    {% endif %}
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                        <li><a href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <li><a href="{% url 'cpu' %}?page={{ page_obj.next_page_number }}">›</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+        <br class="clr">
+    </div>
+{% endblock %}
