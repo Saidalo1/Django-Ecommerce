@@ -216,3 +216,6 @@ media/
 
 # migrations
 **/migrations/**
+
+# .idea
+.idea/

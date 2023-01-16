@@ -32,7 +32,6 @@ INSTALLED_APPS = [
 
     # My apps
     'orders',
-    'shared',
     'users',
 
     # Third-party apps

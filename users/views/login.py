@@ -15,5 +15,8 @@ class CustomLoginView(AuthUserMixin, FormView):
         # email = form.data.get('email')
         # password = form.data.get('password')
         user = authenticate(**form.data.dict())
-        login(self.request, user)
-        return super().form_valid(form)
+        if user:
+            login(self.request, user)
+            return super().form_valid(form)
+        form.add_error('password', "Please type the correct password")  # add_error (None) <---
+        return super(CustomLoginView, self).form_invalid(form)
