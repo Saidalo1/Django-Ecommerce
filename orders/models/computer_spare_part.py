@@ -3,7 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import FloatField, IntegerField, CharField, \
     ImageField, Manager, ForeignKey, CASCADE, JSONField
 
-from shared.django import TimeBaseModel, upload_name_cpu
+from shared.django import TimeBaseModel, upload_image_product_url
 
 
 class ProductManager(Manager):
@@ -20,7 +20,7 @@ class Product(TimeBaseModel):
                            MaxValueValidator(1000000000.00),
                            MinValueValidator(0)
                        ])
-    image = ImageField(upload_to=upload_name_cpu)
+    image = ImageField(upload_to=upload_image_product_url)
     views = IntegerField(default=0)
     category = ForeignKey('orders.SubCategory', CASCADE)
     details = JSONField(verbose_name='details of product')

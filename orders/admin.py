@@ -3,6 +3,7 @@ from django.contrib.admin import ModelAdmin
 from rangefilter.filters import DateTimeRangeFilter, DateRangeFilter, NumericRangeFilter
 
 from orders.models import Product, Category, SubCategory, Images
+from shared.django import delete_main_photo, delete_all_photos
 
 
 @admin.register(Product)
@@ -17,6 +18,12 @@ class ProductAdmin(ModelAdmin):
         'category',
     )
     exclude = ()
+
+    def delete_model(self, request, obj):
+        object_pk = obj.pk
+        delete_main_photo(Product, object_pk)
+        delete_all_photos(Images, object_pk)
+        super().delete_model(request, obj)
 
 
 @admin.register(Category)

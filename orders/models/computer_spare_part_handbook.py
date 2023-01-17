@@ -3,7 +3,7 @@ from django.db.models import CASCADE, ForeignKey, Model, CharField, ImageField, 
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from shared.django import TimeBaseModel
+from shared.django import TimeBaseModel, upload_other_images_product_url
 from users.models import User
 
 
@@ -43,7 +43,7 @@ class Company(Model):
 
 class Images(Model):
     product = ForeignKey('orders.Product', CASCADE)
-    image = ImageField(upload_to='products/images/%y/%m/%d/')
+    image = ImageField(upload_to=upload_other_images_product_url)
 
     class Meta:
         db_table = 'images'
