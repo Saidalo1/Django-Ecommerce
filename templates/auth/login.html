@@ -42,6 +42,15 @@
                                         {% endif %}
                                     {% endfor %}
                                 {% endif %}
+                                {% if msg %}
+                                    {% for label_tag, message in msg.items %}
+                                        <div class="alert alert-block alert-error fade in">
+                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                            <strong>{{ label_tag }}:</strong>
+                                            <p style="text-indent: 20px">• {{ message }}</p>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
 
                                 <button type="submit" class="btn">Sign in</button>
                                 <a href="forgotpass.html">Forget password?</a>

@@ -18,5 +18,5 @@ class CustomLoginView(AuthUserMixin, FormView):
         if user:
             login(self.request, user)
             return super().form_valid(form)
-        form.add_error('password', "Please type the correct password")  # add_error (None) <---
+        form.add_error('password', "Please type the correct password")  # is_active or incorrect password error
         return super(CustomLoginView, self).form_invalid(form)

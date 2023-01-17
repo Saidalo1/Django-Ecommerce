@@ -30,6 +30,7 @@ class UserManager(BaseUserManager):
         )
         user.is_superuser = True
         user.is_staff = True
+        user.is_active = True
 
         user.save(using=self._db)
         return user
@@ -39,6 +40,7 @@ class User(AbstractUser):
     phone = CharField(max_length=12, null=True, blank=True)
     is_active = BooleanField(default=False)
     email = EmailField(_("email address"), unique=True)
+    address = CharField(max_length=512)
 
     USERNAME_FIELD = 'email'
 
