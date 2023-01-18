@@ -10,7 +10,7 @@
             <li class="subMenu{% if forloop.first %} open{% endif %}"><a> {{ key }}</a>
                 <ul>
                     {% for thing in value %}
-                        <li><a class="active" href="products.html"><i
+                        <li><a class="active" href="{% url 'products' %}?subCategory={{ thing.1 }}"><i
                                 class="icon-chevron-right"></i>{{ thing.0 }}
                         </a></li>
                     {% endfor %}

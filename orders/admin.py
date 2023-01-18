@@ -1,9 +1,19 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
+from django.forms import ModelForm
+from django_admin_hstore_widget.forms import HStoreFormField
 from rangefilter.filters import DateTimeRangeFilter, DateRangeFilter, NumericRangeFilter
 
 from orders.models import Product, Category, SubCategory, Images
 from shared.django import delete_main_photo, delete_all_photos
+
+
+class ProductAdminForm(ModelForm):
+    details = HStoreFormField()
+
+    class Meta:
+        model = Product
+        exclude = ()
 
 
 @admin.register(Product)
@@ -17,6 +27,7 @@ class ProductAdmin(ModelAdmin):
         ('views', NumericRangeFilter),
         'category',
     )
+    form = ProductAdminForm
     exclude = ()
 
     def delete_model(self, request, obj):

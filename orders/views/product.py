@@ -33,6 +33,19 @@ class ProductListView(ListView):
         context['products_count'] = Product.objects.count()
         return context
 
+    def get_queryset(self):
+        name = self.request.GET.get('name__icontains', None)
+        sub_category = self.request.GET.get('subCategory', None)
+        object_list = super(ProductListView, self).get_queryset()
+        if name and name != '':
+            if sub_category and sub_category != '':
+                object_list = object_list.filter(name__icontains=name, category=sub_category)
+            else:
+                object_list = object_list.filter(name__icontains=name)
+        elif sub_category and sub_category != '':
+            object_list = object_list.filter(category=sub_category)
+        return object_list
+
 
 class ProductDetailView(DetailView):
     model = Product

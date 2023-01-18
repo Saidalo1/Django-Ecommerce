@@ -11,17 +11,20 @@
         <div class="navbar-inner">
             <a class="brand" href="{% url 'index' %}"><img src="{% static "themes/images/logo.png" %}"
                                                            alt="Bootsshop"/></a>
-            <form class="form-inline navbar-search" method="post" action="products.html">
-                <input id="srchFld" class="srchTxt" type="text"/>
-                <select class="srchTxt">
-                    <option>All</option>
-                    {% for key, value in categories.items %}
-                        <option disabled value="{{ key }}">-->{{ key }}</option>
-                        {% for subCategory in value %}
-                            <option value="{{ subCategory.0 }}">{{ subCategory.0 }}</option>
+            <form class="form-inline navbar-search" method="get" action="{% url 'products' %}">
+                <label for="searchField"></label><input id="searchField" class="srchTxt" type="text"
+                                                        name="name__icontains"/>
+                <label>
+                    <select class="srchTxt" name="subCategory">
+                        <option value>All</option>
+                        {% for key, value in categories.items %}
+                            <option disabled value="{{ key }}">-->{{ key }}</option>
+                            {% for subCategory in value %}
+                                <option value="{{ subCategory.1 }}">{{ subCategory.0 }}</option>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-                </select>
+                    </select>
+                </label>
                 <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
             </form>
             <ul id="topMenu" class="nav pull-right">
@@ -43,10 +46,10 @@
                             <form class="form-horizontal loginFrm" method="post" action="{% url 'login' %}">
                                 {% csrf_token %}
                                 <div class="control-group">
-                                    <input type="text" id="inputEmail" placeholder="Email" name="email">
+                                    <label for="inputEmail"></label><input type="text" id="inputEmail" placeholder="Email" name="email">
                                 </div>
                                 <div class="control-group">
-                                    <input type="password" id="inputPassword" placeholder="Password" name="password">
+                                    <label for="inputPassword"></label><input type="password" id="inputPassword" placeholder="Password" name="password">
                                 </div>
                                 <div class="control-group">
                                     <label class="checkbox">

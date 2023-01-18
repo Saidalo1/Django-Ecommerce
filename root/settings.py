@@ -35,8 +35,10 @@ INSTALLED_APPS = [
     'users',
 
     # Third-party apps
-    'rangefilter',
-    'ckeditor',
+    'rangefilter',  # for filter by price in admin.py
+    'ckeditor',  # for description with html codes
+    'django.contrib.postgres',  # for HStoreField
+    'django_admin_hstore_widget',  # for hstore widget in admin.py
 ]
 
 MIDDLEWARE = [

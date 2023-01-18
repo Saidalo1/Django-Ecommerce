@@ -24,7 +24,7 @@ def counts(request):
         count_of_cart_objects = 0
     categories = dict()
     for category in Category.objects.all():
-        categories[category.name] = SubCategory.objects.filter(category=category).values_list('name')
+        categories[category.name] = SubCategory.objects.filter(category=category).values_list('name', 'id')
     two_best_products = Product.objects.order_by('views', 'count')[:2]
     context = {
         'count_of_cart_objects': count_of_cart_objects,
