@@ -1,12 +1,12 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import FormView
 
+from shared.django.context import count_of_cart_products, total_price_of_products, category_list, two_best_products
 from users.forms import CustomUserCreationForm
 from users.mixins import AuthUserMixin
 from users.utils.tokens import account_activation_token
@@ -34,3 +34,11 @@ class RegisterView(AuthUserMixin, FormView):
         )
         email.send()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(RegisterView, self).get_context_data(**kwargs)
+        context['count_of_cart_objects'] = count_of_cart_products(self.request)
+        context['total_price'] = total_price_of_products(self.request)
+        context['categories'] = category_list()
+        context['two_best_products'] = two_best_products()
+        return context

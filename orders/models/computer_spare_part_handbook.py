@@ -97,7 +97,7 @@ class Sales(Model):
 class Basket(Model):
     product = ForeignKey('orders.Product', CASCADE)
     user = ForeignKey(User, CASCADE)
-    count = IntegerField(default=0)
+    count = IntegerField(default=1)
 
     def __str__(self):
         return f"{self.user} {self.count}"

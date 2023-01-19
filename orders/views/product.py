@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 
 from orders.models import Product, Images
+from shared.django.context import count_of_cart_products, total_price_of_products, category_list, two_best_products
 
 
 class IndexListView(ListView):
@@ -18,6 +19,10 @@ class IndexListView(ListView):
             context['featured_products'] = featured_products
         context['featured_products_count'] = thing.count()
         context['products_count'] = Product.objects.count()
+        context['count_of_cart_objects'] = count_of_cart_products(self.request)
+        context['total_price'] = total_price_of_products(self.request)
+        context['categories'] = category_list()
+        context['two_best_products'] = two_best_products()
         return context
 
 
@@ -26,11 +31,15 @@ class ProductListView(ListView):
     queryset = Product.objects.all()  # .values('id', 'name', 'description', 'image', 'price')
     template_name = 'product/products.html'
     context_object_name = 'products'
-    paginate_by = 9
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         context['products_count'] = Product.objects.count()
+        context['count_of_cart_objects'] = count_of_cart_products(self.request)
+        context['total_price'] = total_price_of_products(self.request)
+        context['categories'] = category_list()
+        context['two_best_products'] = two_best_products()
         return context
 
     def get_queryset(self):
@@ -57,4 +66,25 @@ class ProductDetailView(DetailView):
         product_images = Images.objects.filter(product_id=kwargs['object'].id)
         context['product_images'] = (product_images[:3], product_images[3:])
         context['related_products'] = Product.objects.filter(category=kwargs['object'].category)[:6]
+        context['count_of_cart_objects'] = count_of_cart_products(self.request)
+        context['total_price'] = total_price_of_products(self.request)
+        context['categories'] = category_list()
+        context['two_best_products'] = two_best_products()
         return context
+
+# class BasketListView(ListView):
+#     model = Basket
+#     template_name = 'product/basket.html'
+#     context_object_name = 'basket_products'
+#
+#     def get_queryset(self):
+#         return Basket.objects.filter(user=self.request.user).values('id', 'product__image', 'product__details', 'count',
+#                                                                     'product__price')
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(BasketListView, self).get_context_data(**kwargs)
+#         context['count_of_cart_objects'] = count_of_cart_products(self.request)
+#         context['total_price'] = total_price_of_products(self.request)
+#         context['categories'] = category_list()
+#         context['two_best_products'] = two_best_products()
+#         return context
