@@ -47,6 +47,11 @@ class User(AbstractUser):
     objects = UserManager()
     REQUIRED_FIELDS = ()
 
+    @property
+    def total_price_of_all_products(self):
+        total_price = sum(item.total_price_of_products for item in self.basket_set.all())
+        return total_price
+
     def save(self, *args, **kwargs):
         if self.username is None or self.username == '':
             self.username = f'User000{User.objects.count()}'

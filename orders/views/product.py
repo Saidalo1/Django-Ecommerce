@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
 
 from orders.models import Product, Category
-from shared.django.context import total_price_of_products, two_best_products
+from shared.django.context import two_best_products
 
 
 class IndexListView(ListView):
@@ -11,11 +11,9 @@ class IndexListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
-        thing = context['products']
-        if thing.count() > 7:
-            featured_products = ((thing[:4]), (thing[4:8]), (thing[8:12]), (thing[12:16]))
-            context['featured_products'] = featured_products
-        context['total_price'] = total_price_of_products(self.request)
+        products = context['products']
+        if products.count() > 7:
+            context['featured_products'] = [products[i:i + 4] for i in range(0, len(products), 4)]
         context['categories'] = Category.objects.all()
         context['two_best_products'] = two_best_products()
         return context
@@ -30,7 +28,6 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
-        context['total_price'] = total_price_of_products(self.request)
         context['categories'] = Category.objects.all()
         context['two_best_products'] = two_best_products()
         return context
@@ -58,7 +55,6 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
-        context['total_price'] = total_price_of_products(self.request)
         context['categories'] = Category.objects.all()
         context['two_best_products'] = two_best_products()
         return context

@@ -7,9 +7,7 @@ register = template.Library()
 
 @register.filter
 def has_cart(product, user):
-    if user.is_authenticated:
-        return Basket.objects.filter(user=user, product=product).exists()
-    return False
+    return user.is_authenticated and Basket.objects.filter(user=user, product=product).exists()
 
 
 @register.filter

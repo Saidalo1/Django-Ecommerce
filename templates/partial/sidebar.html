@@ -5,7 +5,7 @@
             src="{% static 'themes/images/ico-cart.png' %}"
             alt="cart">{% if user.is_authenticated %}{{ user.basket_set.count }}{% else %}0{% endif %} Items in
         your cart <span
-                class="badge badge-warning pull-right">${{ total_price }}</span></a></div>
+                class="badge badge-warning pull-right">${{ user.total_price_of_all_products }}</span></a></div>
     <ul id="sideManu" class="nav nav-tabs nav-stacked">
         {% for category in categories %}
             <li class="subMenu{% if forloop.first %} open{% endif %}"><a> {{ category.name }}</a>

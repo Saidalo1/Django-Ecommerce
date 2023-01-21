@@ -4,7 +4,7 @@ from django.views import View
 from django.views.generic import ListView
 
 from orders.models import Basket, Category
-from shared.django.context import total_price_of_products, two_best_products
+from shared.django.context import two_best_products
 
 
 class BasketListView(ListView):
@@ -12,8 +12,7 @@ class BasketListView(ListView):
     template_name = 'product/basket.html'
 
     def get_context_data(self, **kwargs):
-        context = super(BasketListView, self).get_context_data(**kwargs)
-        context['total_price'] = total_price_of_products(self.request)
+        context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['two_best_products'] = two_best_products()
         return context

@@ -7,7 +7,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.views.generic import FormView
 
 from orders.models import Category
-from shared.django.context import total_price_of_products, two_best_products
+from shared.django.context import two_best_products
 from users.forms import CustomUserCreationForm
 from users.mixins import AuthUserMixin
 from users.utils.tokens import account_activation_token
@@ -38,7 +38,6 @@ class RegisterView(AuthUserMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(RegisterView, self).get_context_data(**kwargs)
-        context['total_price'] = total_price_of_products(self.request)
         context['categories'] = Category.objects.all()
         context['two_best_products'] = two_best_products()
         return context

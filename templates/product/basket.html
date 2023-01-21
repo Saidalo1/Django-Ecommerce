@@ -33,8 +33,8 @@
             {% for basket_product in user.basket_set.all %}
                 <tr>
                     <td><a href="{% url 'product_detail' basket_product.product.id %}"><img width="60"
-                                                                                    src="{{ basket_product.product.image.url }}"
-                                                                                    alt=""></a></td>
+                                                                                            src="{{ basket_product.product.image.url }}"
+                                                                                            alt=""></a></td>
                     <td>{{ basket_product.product.description|truncatechars:70|safe }}</td>
                     <td>
                         <div class="input-append"><label for="appendedInputButtons"></label><input class="span1"
@@ -45,24 +45,22 @@
                                                                                                    type="text">
                             <button class="btn" type="button"><i class="icon-minus"></i></button>
                             <button class="btn" type="button"><i class="icon-plus"></i></button>
-                            <button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i></button>
+                            <a href="{% url 'basket_create' basket_product.product.id %}">
+                                <button class="btn btn-danger" type="button"><i class="icon-remove icon-white"></i>
+                                </button>
+                            </a>
                         </div>
                     </td>
                     <td>${{ basket_product.product.price|floatformat:2 }}</td>
                     <td>{{ basket_product.product.sale_percent }}%
                     </td>
-                    <td>${{ basket_product.total_price_of_products }}</td>
+                    <td>${{ basket_product.total_price_of_products|floatformat:2 }}</td>
                 </tr>
-                {% if forloop.last %}
-                    <tr>
-                        <td colspan="5" style="text-align:right">Total Price:</td>
-                        <td> ${{ total_price }}</td>
-                    </tr>
-                {% endif %}
             {% endfor %}
             <tr>
                 <td colspan="5" style="text-align:right"><strong>TOTAL =</strong></td>
-                <td class="label label-important" style="display:block"><strong> ${{ total_price }} </strong></td>
+                <td class="label label-important" style="display:block"><strong>
+                    ${{ user.total_price_of_all_products }} </strong></td>
             </tr>
             </tbody>
         </table>

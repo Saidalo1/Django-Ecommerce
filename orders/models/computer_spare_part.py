@@ -37,7 +37,7 @@ class Product(TimeBaseModel):
     image = ImageField(upload_to=upload_image_product_url)
     views = IntegerField(default=0)
     category = ForeignKey('orders.SubCategory', CASCADE)
-    details = HStoreField(verbose_name='details of product')
+    details = HStoreField('details of product')
     sale_percent = IntegerField(default=0, validators=[
         MaxValueValidator(100),
         MinValueValidator(0)
@@ -49,7 +49,9 @@ class Product(TimeBaseModel):
 
     @property
     def total_price(self):
-        return self.price - self.price * self.sale_percent / 100
+        if self.sale_percent > 0:
+            return self.price - self.price * self.sale_percent / 100
+        return self.price
 
     class Meta:
         ordering = ('-created_at',)
