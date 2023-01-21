@@ -2,7 +2,8 @@ from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 
-from shared.django.context import count_of_cart_products, total_price_of_products, category_list, two_best_products
+from orders.models import Category
+from shared.django.context import total_price_of_products, two_best_products
 from users.forms import AuthLoginForm
 from users.mixins import AuthUserMixin
 
@@ -24,9 +25,7 @@ class CustomLoginView(AuthUserMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(CustomLoginView, self).get_context_data(**kwargs)
-        context['count_of_cart_objects'] = count_of_cart_products(self.request)
         context['total_price'] = total_price_of_products(self.request)
-        context['categories'] = category_list()
+        context['categories'] = Category.objects.all()
         context['two_best_products'] = two_best_products()
         return context
-

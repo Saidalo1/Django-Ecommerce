@@ -1,17 +1,18 @@
 {% load static %}
 {% load check %}
 <div id="sidebar" class="span3">
-    <div class="well well-small"><a id="myCart" href="product_summary.html"><img
-            src="{% static 'themes/images/ico-cart.png' %}" alt="cart">{{ count_of_cart_objects }} Items in
+    <div class="well well-small"><a id="myCart" href="{% url 'basket' %}"><img
+            src="{% static 'themes/images/ico-cart.png' %}"
+            alt="cart">{% if user.is_authenticated %}{{ user.basket_set.count }}{% else %}0{% endif %} Items in
         your cart <span
                 class="badge badge-warning pull-right">${{ total_price }}</span></a></div>
     <ul id="sideManu" class="nav nav-tabs nav-stacked">
-        {% for key, value in categories.items %}
-            <li class="subMenu{% if forloop.first %} open{% endif %}"><a> {{ key }}</a>
+        {% for category in categories %}
+            <li class="subMenu{% if forloop.first %} open{% endif %}"><a> {{ category.name }}</a>
                 <ul>
-                    {% for thing in value %}
-                        <li><a class="active" href="{% url 'products' %}?subCategory={{ thing.1 }}"><i
-                                class="icon-chevron-right"></i>{{ thing.0 }}
+                    {% for thing in category.subcategory_set.all %}
+                        <li><a class="active" href="{% url 'products' %}?subCategory={{ thing.id }}"><i
+                                class="icon-chevron-right"></i>{{ thing.name }}
                         </a></li>
                     {% endfor %}
                 </ul>
@@ -24,7 +25,7 @@
             <img src="{{ product.image.url }}" alt="">
             <div class="caption">
                 <h5>{{ product.name }}</h5>
-                <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
+                <h4 style="text-align:center"><a class="btn" href="{% url 'product_detail' product.id %}"> <i
                         class="icon-zoom-in"></i></a> <a class="btn" href="#">
                     {% if product|has_cart:user %}
                         Added{% else %}Add to {% endif %} <i

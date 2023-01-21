@@ -1,5 +1,5 @@
 from django.db.models import CASCADE, ForeignKey, Model, CharField, ImageField, \
-    FloatField, IntegerField, TextField, TextChoices, DateTimeField
+    FloatField, IntegerField, TextField, TextChoices
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
@@ -79,21 +79,6 @@ class Comments(TimeBaseModel, MPTTModel):
         db_table = 'comments'
 
 
-class Sales(Model):
-    product = ForeignKey('orders.Product', CASCADE)
-    percent = IntegerField(default=0)
-    title = CharField(max_length=200)
-    description = TextField(max_length=1000)
-    from_date = DateTimeField(auto_now=True)
-    to_date = DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.title} {self.product} {self.from_date} {self.to_date}"
-
-    class Meta:
-        db_table = 'sales'
-
-
 class Basket(Model):
     product = ForeignKey('orders.Product', CASCADE)
     user = ForeignKey(User, CASCADE)
@@ -101,6 +86,10 @@ class Basket(Model):
 
     def __str__(self):
         return f"{self.user} {self.count}"
+
+    @property
+    def total_price_of_products(self):
+        return self.product.total_price * self.count
 
     class Meta:
         db_table = 'basket'

@@ -21,20 +21,27 @@
                          alt="">
                 </a>
                 <div id="differentview" class="moreOptopm carousel slide">
-                    {% if product_images.count > 0 %}
+                    {% if product.images_set.count > 0 %}
                         <br>
                         <br>
                     {% endif %}
                     <div class="carousel-inner">
-                        {% for product in product_images %}
-                            <div class="item{% if forloop.counter == 1 %} active{% endif %}">
-                                {% for image in product %}
-                                    <a href="{{ image.image.url }}"> <img style="width:29%"
-                                                                          src="{{ image.image.url }}"
-                                                                          alt=""></a>
+                        <div class="item active">
+                            {% for product in product.images_set.all|slice:":3" %}
+                                <a href="{{ product.image.url }}"> <img style="width:29%"
+                                                                        src="{{ product.image.url }}"
+                                                                        alt=""></a>
+                            {% endfor %}
+                        </div>
+                        {% if product.images_set.all|slice:"3:" %}
+                            <div class="item">
+                                {% for product in product.images_set.all|slice:"3:" %}
+                                    <a href="{{ product.image.url }}"> <img style="width:29%"
+                                                                            src="{{ product.image.url }}"
+                                                                            alt=""></a>
                                 {% endfor %}
                             </div>
-                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
 
@@ -59,10 +66,10 @@
                             <label>
                                 <input type="number" class="span1" placeholder="Qty.">
                             </label>
-                            <button type="submit" class="btn btn-large btn-primary pull-right">
+                            <a href="{% url 'basket_create' product.id %}"><button type="submit" class="btn btn-large btn-primary pull-right">
                                 {% if product.id|has_cart:user %}
                                     Added{% else %}Add to{% endif %}<i
-                                    class=" icon-shopping-cart"></i></button>
+                                    class=" icon-shopping-cart"></i></button></a>
                         </div>
                     </div>
                 </form>
@@ -75,10 +82,9 @@
                         <div class="controls">
                             <label>
                                 <select class="span2" style="visibility: visible;">
-                                    <option>Black</option>
-                                    <option>Red</option>
-                                    <option>Blue</option>
-                                    <option>Brown</option>
+                                    {% for color in product.color %}
+                                    <option>{{ color }}</option>
+                                    {% endfor %}
                                 </select>
                             </label>
                         </div>
@@ -103,7 +109,7 @@
                         <table class="table table-bordered">
                             <tbody>
                             <tr class="techSpecRow">
-                                <th colspan="2">Product Details</th>
+                                <th colspan="2" style="text-align: center; vertical-align: middle;">Product Details</th>
                             </tr>
                             {% for key, value in product.details.items %}
                                 <tr class="techSpecRow">
@@ -128,7 +134,7 @@
                         <hr class="soft">
                         <div class="tab-content">
                             <div class="tab-pane" id="listView">
-                                {% for product in related_products %}
+                                {% for product in product.category.product_set.all|slice:":6" %}
                                     <div class="row">
                                         <div class="span2">
                                             <img src="{{ product.image.url }}" alt="">
@@ -150,11 +156,13 @@
                                                     <input type="checkbox"> Adds product to compair
                                                 </label><br>
                                                 <div class="btn-group">
-                                                    <a href="product_details.html" class="btn btn-large btn-primary">
+                                                    <a href="{% url 'basket_create' product.id %}"
+                                                       class="btn btn-large btn-primary">
                                                         {% if product.id|has_cart:user %}
                                                             Added{% else %}Add to{% endif %}
                                                         <i class=" icon-shopping-cart"></i></a>
-                                                    <a href="product_details.html" class="btn btn-large"><i
+                                                    <a href="{% url 'product_detail' product.id %}"
+                                                       class="btn btn-large"><i
                                                             class="icon-zoom-in"></i></a>
                                                 </div>
                                             </form>
@@ -165,10 +173,10 @@
                             </div>
                             <div class="tab-pane active" id="blockView">
                                 <ul class="thumbnails">
-                                    {% for product in related_products %}
+                                    {% for product in product.category.product_set.all|slice:":6" %}
                                         <li class="span3">
                                             <div class="thumbnail">
-                                                <a href="product_details.html"><img
+                                                <a href="{% url 'product_detail' product.id %}"><img
                                                         src="{{ product.image.url }}"
                                                         alt=""></a>
                                                 <div class="caption">
@@ -177,8 +185,10 @@
                                                         {{ product.description|truncatechars:250|safe }}
                                                     </p>
                                                     <h4 style="text-align:center"><a class="btn"
-                                                                                     href="product_details.html"> <i
-                                                            class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to
+                                                                                     href="{% url 'product_detail' product.id %}">
+                                                        <i
+                                                                class="icon-zoom-in"></i></a> <a class="btn" href="#">Add
+                                                        to
                                                         <i
                                                                 class="icon-shopping-cart"></i></a> <a
                                                             class="btn btn-primary"

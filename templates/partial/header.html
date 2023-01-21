@@ -17,10 +17,10 @@
                 <label>
                     <select class="srchTxt" name="subCategory">
                         <option value>All</option>
-                        {% for key, value in categories.items %}
-                            <option disabled value="{{ key }}">-->{{ key }}</option>
-                            {% for subCategory in value %}
-                                <option value="{{ subCategory.1 }}">{{ subCategory.0 }}</option>
+                        {% for category in categories %}
+                            <option disabled value="{{ category }}">-->{{ category }}</option>
+                            {% for subCategory in category.subcategory_set.all %}
+                                <option value="{{ subCategory.id }}">{{ subCategory.name }}</option>
                             {% endfor %}
                         {% endfor %}
                     </select>

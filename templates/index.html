@@ -83,9 +83,9 @@
 
 {% block content %}
     <div class="span9">
-        {% if featured_products_count > 7 %}
+        {% if products.count > 7 %}
             <div class="well well-small">
-                <h4>Featured Products <small class="pull-right">16 featured products</small></h4>
+                <h4>Featured Products <small class="pull-right">{{ products.count }} featured products</small></h4>
                 <div class="row-fluid">
                     <div id="featured" class="carousel slide">
                         <div class="carousel-inner">
@@ -95,13 +95,14 @@
                                         {% for product in value %}
                                             <li class="span3">
                                                 <div class="thumbnail">
-                                                    <a href="product_details.html"><img
+                                                    <a href="{% url 'product_detail' product.id %}"><img
                                                             src="media/{{ product.image }}"
                                                             alt=""></a>
                                                     <div class="caption">
                                                         <h5>{{ product.name }}</h5>
-                                                        <h4><a class="btn" href="product_details.html">VIEW</a> <span
-                                                                class="pull-right">${{ product.price|floatformat:2 }}</span>
+                                                        <h4><a class="btn" href="{% url 'product_detail' product.id %}">VIEW</a>
+                                                            <span
+                                                                    class="pull-right">${{ product.price|floatformat:2 }}</span>
                                                         </h4>
                                                     </div>
                                                 </div>
@@ -119,29 +120,31 @@
         {% endif %}
         <h4>Latest Products </h4>
         <ul class="thumbnails">
-            {% for product in products %}
+            {% for product in products|slice:":9" %}
                 <li class="span3">
                     <div class="thumbnail">
-                        <a href="product_details.html"><img src="media/{{ product.image }}" alt=""></a>
+                        <a href="{% url 'product_detail' product.id %}"><img src="media/{{ product.image }}" alt=""></a>
                         <div class="caption">
                             <h5>{{ product.name }}</h5>
                             <p>
                                 {{ product.description|truncatechars:100|safe }}
                             </p>
 
-                            <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
-                                    class="icon-zoom-in"></i></a> <a class="btn" href="#">
+                            <h4 style="text-align:center"><a class="btn" href="{% url 'product_detail' product.id %}">
+                                <i
+                                        class="icon-zoom-in"></i></a> <a class="btn"
+                                                                         href="{% url 'basket_create' product.id %}">
                                 {% if product.id|has_cart:user %}
                                     Added{% else %}Add to{% endif %}<i
                                     class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
-                                                                           href="#">${{ product.price|floatformat:2 }}</a>
+                                                                           href="">${{ product.price|floatformat:2 }}</a>
                             </h4>
                         </div>
                     </div>
                 </li>
             {% endfor %}
         </ul>
-        {% if products_count > 9 %}
+        {% if products.count > 9 %}
             <style>
                 .iksweb {
                     -webkit-transition-duration: 0.4s; /* Safari */

@@ -1,6 +1,6 @@
 #mainBody {/* background: url(../images/seperator.png) repeat-x 0 0; */ border-top:2px solid #dedede; padding-top: 18px;}
 #carouselBlk,#header{background: url(../images/headerRepeat.png) repeat-x 0 0 #f7f7f7;}
-#srchFld {background: url(../images/search.png) no-repeat 4px center #fff;}
+#searchField {background: url(../images/search.png) no-repeat 4px center #fff;}
 .tag {background:url(../images/new.png) no-repeat 0 0; position: absolute; display:block; top: -4px;right: -18px; height:48px; width:48px;}
 .clr{clear:both;}
 .cntr{text-align:center}

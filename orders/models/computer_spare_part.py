@@ -38,11 +38,18 @@ class Product(TimeBaseModel):
     views = IntegerField(default=0)
     category = ForeignKey('orders.SubCategory', CASCADE)
     details = HStoreField(verbose_name='details of product')
-
+    sale_percent = IntegerField(default=0, validators=[
+        MaxValueValidator(100),
+        MinValueValidator(0)
+    ])
     objects = ProductManager()
 
     def __str__(self):
         return self.name
+
+    @property
+    def total_price(self):
+        return self.price - self.price * self.sale_percent / 100
 
     class Meta:
         ordering = ('-created_at',)
