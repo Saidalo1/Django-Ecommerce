@@ -32,11 +32,11 @@ def delete_all_photos(model, object_pk):
 
 # Sort image dirs of product by id
 def upload_image_product_url(instance, filename):
-    return f'product/{instance.id}-product/images/default-image/{filename}'
+    return f'product/{instance.name}-product/images/default-image/{filename}'
 
 
 def upload_other_images_product_url(instance, filename):
-    return f'product/{instance.id}-product/images/{filename}'
+    return f'product/{instance.name}-product/images/{filename}'
 
 
 # Find difference between old and new images

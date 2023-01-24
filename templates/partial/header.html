@@ -32,7 +32,8 @@
                 <li class=""><a href="normal.html">Delivery</a></li>
                 <li class=""><a href="contact.html">Contact</a></li>
                 <li class="">
-                    <a href="#login" role="button" data-toggle="modal" style="padding-right:0"><span
+                    <a href="{% if user.is_authenticated %}{% url 'account_settings' %}{% else %}#login{% endif %}"
+                       role="button" data-toggle="modal" style="padding-right:0"><span
                             class="btn btn-large btn-success">{% if user.is_authenticated %}
                         {{ user.username }}{% else %}
                         Login{% endif %}</span></a>
@@ -46,10 +47,12 @@
                             <form class="form-horizontal loginFrm" method="post" action="{% url 'login' %}">
                                 {% csrf_token %}
                                 <div class="control-group">
-                                    <label for="inputEmail"></label><input type="text" id="inputEmail" placeholder="Email" name="email">
+                                    <label for="inputEmail"></label><input type="text" id="inputEmail"
+                                                                           placeholder="Email" name="email">
                                 </div>
                                 <div class="control-group">
-                                    <label for="inputPassword"></label><input type="password" id="inputPassword" placeholder="Password" name="password">
+                                    <label for="inputPassword"></label><input type="password" id="inputPassword"
+                                                                              placeholder="Password" name="password">
                                 </div>
                                 <div class="control-group">
                                     <label class="checkbox">

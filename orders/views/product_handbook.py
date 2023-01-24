@@ -24,3 +24,6 @@ class BasketCreateView(LoginRequiredMixin, View):
         if not created:
             cart.delete()
         return redirect(self.request.GET.get('url', 'products'))
+
+    def post(self, *args, **kwargs):
+        pass

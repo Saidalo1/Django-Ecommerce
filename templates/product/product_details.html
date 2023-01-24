@@ -59,21 +59,52 @@
             <div class="span6">
                 <h2>{{ product.name }}</h2>
                 <hr class="soft">
-                <form class="form-horizontal qtyFrm">
-                    <div class="control-group">
-                        <label class="control-label"><span>${{ product.price|floatformat:2 }}</span></label>
-                        <div class="controls">
-                            <label>
-                                <input type="number" class="span1" placeholder="Qty.">
-                            </label>
-                            <a href="{% url 'basket_create' product.id %}"><button type="submit" class="btn btn-large btn-primary pull-right">
-                                {% if product.id|has_cart:user %}
-                                    Added{% else %}Add to{% endif %}<i
-                                    class=" icon-shopping-cart"></i></button></a>
-                        </div>
-                    </div>
-                </form>
+                {% if user.is_authenticated %}
+                    <form class="form-horizontal qtyFrm" {% if not product.id|has_cart:user %}method="post"
+                          action="{% url 'basket_create' product.id %}" {% endif %}>
+                        {% if not product.id|has_cart:user %}{% csrf_token %}{% endif %}
+                        <div class="control-group">
+                            <label class="control-label"><span>${{ product.price|floatformat:2 }}</span></label>
+                            <div class="controls">
+                                <label>
+                                    <input type="number" class="span1"
+                                           placeholder="
 
+
+
+
+                                                   {% if product.id|has_cart:user %}{{ product.basket_set.total_price_of_products }}{% else %}Qty.{% endif %}">
+                                </label>
+                                {% if product.id|has_cart:user %}
+                                    <a href="{% url 'basket_create' product.id %}">{% endif %}
+                                <button type="submit" class="btn btn-large btn-primary pull-right">
+                                    {% if product.id|has_cart:user %}
+                                        Added{% else %}Add to{% endif %}<i
+                                        class=" icon-shopping-cart"></i></button>
+                                {% if product.id|has_cart:user %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <form class="form-horizontal qtyFrm">
+                        <div class="control-group">
+                            <label class="control-label"><span>${{ product.price|floatformat:2 }}</span></label>
+                            <div class="controls">
+                                <label>
+                                    <input type="number" class="span1"
+                                           placeholder="Qty.">
+                                </label>
+                                <a href="{% url 'register' %}">
+                                    <button type="button" class="btn btn-large btn-primary pull-right">
+                                        Add to<i
+                                            class=" icon-shopping-cart"></i></button>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
                 <hr class="soft">
                 <h4>{{ product.count }} items in stock</h4>
                 <form class="form-horizontal qtyFrm pull-right">
@@ -83,7 +114,7 @@
                             <label>
                                 <select class="span2" style="visibility: visible;">
                                     {% for color in product.color %}
-                                    <option>{{ color }}</option>
+                                        <option>{{ color }}</option>
                                     {% endfor %}
                                 </select>
                             </label>

@@ -1,0 +1,91 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+    <div class="span9">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
+            <li class="active">Update Account</li>
+        </ul>
+        <h3> Update Account</h3>
+        <div class="well">
+            <form class="form-horizontal" action="{% url 'account_settings' %}" method="post">
+                {% csrf_token %}
+                <h4>Your personal information</h4>
+                <div class="control-group">
+                    <label class="control-label" for="inputFname1">First name</label>
+                    <div class="controls">
+                        <input type="text" id="inputFname1" placeholder="First Name" name="first_name"
+                               value="{{ profile.first_name }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputLnam">Last name</label>
+                    <div class="controls">
+                        <input type="text" id="inputLnam" placeholder="Last Name"
+                               name="last_name" value="{{ profile.last_name }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input_email">Email <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="text" id="input_email" placeholder="Email" name="email" required
+                               value="{{ profile.email }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword1">Password <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="password" id="inputPassword1" placeholder="Password" name="old_password" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword1">New Password <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="password" id="inputPassword1" placeholder="Password" name="password1" required>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword2">Confirm password <sup>*</sup></label>
+                    <div class="controls">
+                        <input type="password" id="inputPassword2" placeholder="Confirm password" name="password2"
+                               required>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="aditionalInfo">Your address</label>
+                    <div class="controls">
+                        <textarea name="address" id="aditionalInfo" cols="26"
+                                  rows="3" placeholder="Address">{{ profile.address }}</textarea>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="mobile">Phone number</label>
+                    <div class="controls">
+                        <input type="text" name="phone" id="mobile" placeholder="Phone number"
+                               value="{{ profile.phone }}">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <div class="alert alert-block alert-error fade in">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>{{ field.label_tag }}</strong>
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+
+                    <div class="controls">
+                        <input class="btn btn-large btn-success" type="submit" value="Update">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

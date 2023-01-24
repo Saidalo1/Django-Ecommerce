@@ -1,8 +1,8 @@
 from ckeditor.fields import RichTextField
+from django.contrib.postgres.fields import HStoreField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import FloatField, IntegerField, CharField, \
-    ImageField, Manager, ForeignKey, CASCADE, JSONField, TextChoices
-from django.contrib.postgres.fields import HStoreField
+    ImageField, Manager, ForeignKey, CASCADE, TextChoices
 
 from shared.django import TimeBaseModel, upload_image_product_url, ChoiceArrayField
 

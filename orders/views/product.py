@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
 
-from orders.models import Product, Category
+from orders.models import Product, Category, Images
 from shared.django.context import two_best_products
 
 
