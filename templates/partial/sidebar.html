@@ -6,7 +6,7 @@
             alt="cart">{% if user.is_authenticated %}{{ user.basket_set.count }}{% else %}0{% endif %} Items in
         your cart <span
                 class="badge badge-warning pull-right">${% if user.is_authenticated %}
-            {{ user.total_price_of_all_products }}{% else %}0{% endif %}</span></a>
+            {{ user.total_price_of_all_products|floatformat:2 }}{% else %}0{% endif %}</span></a>
     </div>
     <ul id="sideManu" class="nav nav-tabs nav-stacked">
         {% for category in categories %}

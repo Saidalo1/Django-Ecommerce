@@ -68,12 +68,11 @@
                             <div class="controls">
                                 <label>
                                     <input type="number" class="span1"
-                                           placeholder="
-
-
-
-
-                                                   {% if product.id|has_cart:user %}{{ product.basket_set.total_price_of_products }}{% else %}Qty.{% endif %}">
+                                           placeholder="Qty."
+                                           {% if product.id|has_cart:user %}value="{{ product.basket_set.total_price_of_products }}"{% endif %}
+                                           name="product_basket_count">
+                                </label>
+                                <label>
                                 </label>
                                 {% if product.id|has_cart:user %}
                                     <a href="{% url 'basket_create' product.id %}">{% endif %}
@@ -97,7 +96,8 @@
                                            placeholder="Qty.">
                                 </label>
                                 <a href="{% url 'register' %}">
-                                    <button type="button" class="btn btn-large btn-primary pull-right">
+                                    <button type="button"
+                                            class="btn btn-large btn-primary pull-right">
                                         Add to<i
                                             class=" icon-shopping-cart"></i></button>
                                 </a>
@@ -111,13 +111,15 @@
                     <div class="control-group">
                         <label class="control-label"><span>Color</span></label>
                         <div class="controls">
-                            <label>
-                                <select class="span2" style="visibility: visible;">
-                                    {% for color in product.color %}
-                                        <option>{{ color }}</option>
-                                    {% endfor %}
-                                </select>
-                            </label>
+                            {% if product.color|length > 0 %}
+                                <label>
+                                    <select class="span2" style="visibility: visible;">
+                                        {% for color in product.color %}
+                                            <option>{{ color }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            {% endif %}
                         </div>
                     </div>
                 </form>

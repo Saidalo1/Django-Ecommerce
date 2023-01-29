@@ -2,7 +2,7 @@
 {% block content %}
     <div class="span9">
         <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> <span class="divider">/</span></li>
+            <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
             <li class="active">Login</li>
         </ul>
         <h3> Login</h3>
@@ -44,16 +44,27 @@
                                 {% endif %}
                                 {% if msg %}
                                     {% for label_tag, message in msg.items %}
-                                        <div class="alert alert-block alert-error fade in">
+                                        <div class="alert alert-{% if message == "Link is invalid" %}block alert-error fade in{% else %}success{% endif %}">
                                             <button type="button" class="close" data-dismiss="alert">×</button>
                                             <strong>{{ label_tag }}:</strong>
                                             <p style="text-indent: 20px">• {{ message }}</p>
                                         </div>
                                     {% endfor %}
                                 {% endif %}
-
+                                {% if messages %}
+                                    <div class="alert alert-success">
+                                        {% for m in messages %}
+                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ m }}</li>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                                 <button type="submit" class="btn">Sign in</button>
                                 <a href="forgotpass.html">Forget password?</a>
+                                <p>Not registered?
+                                    <a href="{% url 'register' %}">
+                                        <button type="button" class="btn">Register now</button>
+                                    </a></p>
                             </div>
                         </div>
                     </form>

@@ -1,3 +1,4 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -13,10 +14,11 @@ from users.mixins import AuthUserMixin
 from users.utils.tokens import account_activation_token
 
 
-class RegisterView(AuthUserMixin, FormView):
+class RegisterView(SuccessMessageMixin, AuthUserMixin, FormView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'auth/register.html'
+    success_message = "Account confirmation link has been sent to your email. Please, confirm your account!"
 
     def form_valid(self, form):
         user = form.save()

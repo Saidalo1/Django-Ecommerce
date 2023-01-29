@@ -26,4 +26,7 @@ class BasketCreateView(LoginRequiredMixin, View):
         return redirect(self.request.GET.get('url', 'products'))
 
     def post(self, *args, **kwargs):
-        pass
+        product_basket_count = self.request.POST.get('product_basket_count')
+        Basket.objects.update_or_create(user=self.request.user, product_id=kwargs['pk'],
+                                        count=product_basket_count)
+        return redirect(self.request.GET.get('url', 'basket'))

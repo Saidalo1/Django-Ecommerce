@@ -32,11 +32,13 @@
                 <li class=""><a href="normal.html">Delivery</a></li>
                 <li class=""><a href="contact.html">Contact</a></li>
                 <li class="">
-                    <a href="{% if user.is_authenticated %}{% url 'account_settings' %}{% else %}#login{% endif %}"
-                       role="button" data-toggle="modal" style="padding-right:0"><span
-                            class="btn btn-large btn-success">{% if user.is_authenticated %}
-                        {{ user.username }}{% else %}
-                        Login{% endif %}</span></a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'account_settings' %}"
+                           role="button" data-toggle="modal" style="padding-right:0"><span
+                                class="btn btn-large btn-success">{{ user.username }}</span></a>
+                    {% else %}<a href="#login"
+                                 role="button" data-toggle="modal" style="padding-right:0"><span
+                            class="btn btn-large btn-success">Login</span></a>{% endif %}
                     <div id="login" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="login"
                          aria-hidden="false">
                         <div class="modal-header">
@@ -61,6 +63,10 @@
                                 </div>
                                 <button type="submit" class="btn btn-success">Sign in</button>
                                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                Not registered?
+                                <a href="{% url 'register' %}">
+                                    <button type="button" class="btn">Register now</button>
+                                </a>
                             </form>
                         </div>
                     </div>

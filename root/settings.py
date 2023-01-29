@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import environ
+from django.urls import reverse_lazy
 
 # Initialise environment variables
 env = environ.Env()
@@ -137,3 +138,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
+
+LOGIN_URL = reverse_lazy('login')

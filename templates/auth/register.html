@@ -2,7 +2,7 @@
 {% block content %}
     <div class="span9">
         <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> <span class="divider">/</span></li>
+            <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
             <li class="active">Registration</li>
         </ul>
         <h3> Registration</h3>
@@ -86,6 +86,10 @@
 
                     <div class="controls">
                         <input class="btn btn-large btn-success" type="submit" value="Register">
+                        Already registered?
+                        <a href="{% url 'login' %}">
+                            <button type="button" class="btn">Login now</button>
+                        </a>
                     </div>
                 </div>
             </form>

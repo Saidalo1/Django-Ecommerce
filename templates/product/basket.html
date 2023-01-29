@@ -23,9 +23,9 @@
             <tr>
                 <th>Product</th>
                 <th>Description</th>
-                <th>Quantity/Update</th>
                 <th>Price</th>
                 <th>Discount</th>
+                <th>Quantity/Update</th>
                 <th>Total</th>
             </tr>
             </thead>
@@ -36,6 +36,9 @@
                                                                                             src="{{ basket_product.product.image.url }}"
                                                                                             alt=""></a></td>
                     <td>{{ basket_product.product.description|truncatechars:70|safe }}</td>
+                    <td>${{ basket_product.product.price|floatformat:2 }}</td>
+                    <td>{{ basket_product.product.sale_percent }}%
+                    </td>
                     <td>
                         <div class="input-append"><label for="appendedInputButtons"></label><input class="span1"
                                                                                                    style="max-width:34px"
@@ -51,16 +54,13 @@
                             </a>
                         </div>
                     </td>
-                    <td>${{ basket_product.product.price|floatformat:2 }}</td>
-                    <td>{{ basket_product.product.sale_percent }}%
-                    </td>
                     <td>${{ basket_product.total_price_of_products|floatformat:2 }}</td>
                 </tr>
             {% endfor %}
             <tr>
                 <td colspan="5" style="text-align:right"><strong>TOTAL =</strong></td>
                 <td class="label label-important" style="display:block"><strong>
-                    ${{ user.total_price_of_all_products }} </strong></td>
+                    ${{ user.total_price_of_all_products|floatformat:2 }} </strong></td>
             </tr>
             </tbody>
         </table>
