@@ -60,7 +60,7 @@
                                     </div>
                                 {% endif %}
                                 <button type="submit" class="btn">Sign in</button>
-                                <a href="forgotpass.html">Forget password?</a>
+                                <a href="{% url 'password_reset' %}">Forget password?</a>
                                 <p>Not registered?
                                     <a href="{% url 'register' %}">
                                         <button type="button" class="btn">Register now</button>

@@ -37,10 +37,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    phone = CharField(max_length=12, null=True, blank=True)
-    is_active = BooleanField(default=False)
+    phone = CharField(max_length=12, null=True, blank=True, verbose_name='phone number')
+    is_active = BooleanField(default=False, verbose_name='is active')
     email = EmailField(_("email address"), unique=True)
-    address = CharField(max_length=512)
+    address = CharField(max_length=512, blank=True, verbose_name='house address')
 
     USERNAME_FIELD = 'email'
 

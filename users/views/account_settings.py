@@ -27,7 +27,7 @@ class AccountUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return context
 
 
-class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+class ChangePasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     template_name = 'auth/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('change_password')

@@ -11,5 +11,5 @@ urlpatterns = [
 
     # basket
     path("basket/", BasketListView.as_view(), name="basket"),
-    path("basket/add/<int:pk>", BasketCreateView.as_view(), name="basket_create")
+    path("basket/add/<int:pk>", BasketCreateView.as_view(), name="basket_create"),
 ]
