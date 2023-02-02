@@ -3,19 +3,12 @@ from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import ListView
 
-from orders.models import Basket, Category
-from shared.django.context import two_best_products
+from orders.models import Basket
 
 
 class BasketListView(ListView):
     model = Basket
     template_name = 'product/basket.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        context['two_best_products'] = two_best_products()
-        return context
 
 
 class BasketCreateView(LoginRequiredMixin, View):

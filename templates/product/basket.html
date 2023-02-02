@@ -60,7 +60,8 @@
             <tr>
                 <td colspan="5" style="text-align:right"><strong>TOTAL =</strong></td>
                 <td class="label label-important" style="display:block"><strong>
-                    ${{ user.total_price_of_all_products|floatformat:2 }} </strong></td>
+                    ${% if user.is_authenticated %}{{ user.total_price_of_all_products|floatformat:2 }}{% else %}
+                    {{ 0|floatformat:2 }}{% endif %} </strong></td>
             </tr>
             </tbody>
         </table>

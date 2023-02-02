@@ -1,7 +1,6 @@
 from django.views.generic import ListView, DetailView
 
-from orders.models import Product, Category, Images
-from shared.django.context import two_best_products
+from orders.models import Product
 
 
 class IndexListView(ListView):
@@ -14,8 +13,6 @@ class IndexListView(ListView):
         products = context['products']
         if products.count() > 7:
             context['featured_products'] = [products[i:i + 4] for i in range(0, len(products), 4)]
-        context['categories'] = Category.objects.all()
-        context['two_best_products'] = two_best_products()
         return context
 
 
@@ -25,12 +22,6 @@ class ProductListView(ListView):
     template_name = 'product/products.html'
     context_object_name = 'products'
     paginate_by = 12
-
-    def get_context_data(self, **kwargs):
-        context = super(ProductListView, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        context['two_best_products'] = two_best_products()
-        return context
 
     def get_queryset(self):
         # search products
@@ -52,9 +43,3 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/product_details.html'
     context_object_name = 'product'
-
-    def get_context_data(self, **kwargs):
-        context = super(ProductDetailView, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        context['two_best_products'] = two_best_products()
-        return context
