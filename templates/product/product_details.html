@@ -7,237 +7,250 @@
 {% endblock %}
 
 {% block content %}
-    <div class="span9">
-        <ul class="breadcrumb">
-            <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
-            <li><a href="{% url 'products' %}">Products</a> <span class="divider">/</span></li>
-            <li class="active">{{ product.name }} details</li>
-        </ul>
-        <div class="row">
-            <div id="gallery" class="span3">
-                <a href="{{ product.image.url }}"
-                   title="">
-                    <img src="{{ product.image.url }}" style="width:100%"
-                         alt="">
-                </a>
-                <div id="differentview" class="moreOptopm carousel slide">
-                    {% if product.images_set.count > 0 %}
-                        <br>
-                        <br>
-                    {% endif %}
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            {% for product in product.images_set.all|slice:":3" %}
+<div class="span9">
+    <ul class="breadcrumb">
+        <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
+        <li><a href="{% url 'products' %}">Products</a> <span class="divider">/</span></li>
+        <li class="active">{{ product.name }} details</li>
+    </ul>
+    <div class="row">
+        <div id="gallery" class="span3">
+            <a href="{{ product.image.url }}"
+               title="">
+                <img src="{{ product.image.url }}" style="width:100%"
+                     alt="">
+            </a>
+            <div id="differentview" class="moreOptopm carousel slide">
+                {% if product.images_set.count > 0 %}
+                    <br>
+                    <br>
+                {% endif %}
+                <div class="carousel-inner">
+                    <div class="item active">
+                        {% for product in product.images_set.all|slice:":3" %}
+                            <a href="{{ product.image.url }}"> <img style="width:29%"
+                                                                    src="{{ product.image.url }}"
+                                                                    alt=""></a>
+                        {% endfor %}
+                    </div>
+                    {% if product.images_set.all|slice:"3:" %}
+                        <div class="item">
+                            {% for product in product.images_set.all|slice:"3:" %}
                                 <a href="{{ product.image.url }}"> <img style="width:29%"
                                                                         src="{{ product.image.url }}"
                                                                         alt=""></a>
                             {% endfor %}
                         </div>
-                        {% if product.images_set.all|slice:"3:" %}
-                            <div class="item">
-                                {% for product in product.images_set.all|slice:"3:" %}
-                                    <a href="{{ product.image.url }}"> <img style="width:29%"
-                                                                            src="{{ product.image.url }}"
-                                                                            alt=""></a>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="btn-toolbar">
-                    <div class="btn-group">
-                        <span class="btn"><i class="icon-envelope"></i></span>
-                        <span class="btn"><i class="icon-print"></i></span>
-                        <span class="btn"><i class="icon-zoom-in"></i></span>
-                        <span class="btn"><i class="icon-star"></i></span>
-                        <span class="btn"><i class=" icon-thumbs-up"></i></span>
-                        <span class="btn"><i class="icon-thumbs-down"></i></span>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-            <div class="span6">
-                <h2>{{ product.name }}</h2>
-                <hr class="soft">
-                {% if user.is_authenticated %}
-                    <form class="form-horizontal qtyFrm" {% if not product.id|has_cart:user %}method="post"
-                          action="{% url 'basket_create' product.id %}" {% endif %}>
-                        {% if not product.id|has_cart:user %}{% csrf_token %}{% endif %}
+
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <span class="btn"><i class="icon-envelope"></i></span>
+                    <span class="btn"><i class="icon-print"></i></span>
+                    <span class="btn"><i class="icon-zoom-in"></i></span>
+                    <span class="btn"><i class="icon-star"></i></span>
+                    <span class="btn"><i class=" icon-thumbs-up"></i></span>
+                    <span class="btn"><i class="icon-thumbs-down"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <h2>{{ product.name }}</h2>
+            <hr class="soft">
+            {% if user.is_authenticated %}
+                {% if not product.id|has_cart:user %}
+                    <form class="form-horizontal qtyFrm" method="post"
+                          action="{% url 'basket_create' product.id %}">
+                        {% csrf_token %}
                         <div class="control-group">
                             <label class="control-label"><span>${{ product.price|floatformat:2 }}</span></label>
                             <div class="controls">
                                 <label>
-                                    <input type="number" class="span1"
-                                           placeholder="Qty."
-                                           {% if product.id|has_cart:user %}value="{{ product.basket_set.total_price_of_products }}"{% endif %}
-                                           name="product_basket_count">
+                                    <input type="number" class="span1" placeholder="Qty." name="product_basket_count">
                                 </label>
                                 <label>
                                 </label>
-                                {% if product.id|has_cart:user %}
-                                    <a href="{% url 'basket_create' product.id %}">{% endif %}
                                 <button type="submit" class="btn btn-large btn-primary pull-right">
-                                    {% if product.id|has_cart:user %}
-                                        Added{% else %}Add to{% endif %}<i
+                                    Add to<i
                                         class=" icon-shopping-cart"></i></button>
-                                {% if product.id|has_cart:user %}
-                                    </a>
-                                {% endif %}
                             </div>
                         </div>
                     </form>
                 {% else %}
                     <form class="form-horizontal qtyFrm">
-                        <div class="control-group">
-                            <label class="control-label"><span>${{ product.price|floatformat:2 }}</span></label>
-                            <div class="controls">
-                                <label>
-                                    <input type="number" class="span1"
-                                           placeholder="Qty.">
-                                </label>
-                                <a href="{% url 'register' %}">
-                                    <button type="button"
-                                            class="btn btn-large btn-primary pull-right">
-                                        Add to<i
-                                            class=" icon-shopping-cart"></i></button>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                {% endif %}
-                <hr class="soft">
-                <h4>{{ product.count }} items in stock</h4>
-                <form class="form-horizontal qtyFrm pull-right">
-                    <div class="control-group">
-                        <label class="control-label"><span>Color</span></label>
-                        <div class="controls">
-                            {% if product.color|length > 0 %}
-                                <label>
-                                    <select class="span2" style="visibility: visible;">
-                                        {% for color in product.color %}
-                                            <option>{{ color }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </label>
-                            {% endif %}
-                        </div>
-                    </div>
-                </form>
-                <hr class="soft clr">
-                <p>{{ product.description|truncatechars:450|safe }}</p>
-                <a class="btn btn-small pull-right" href="#detail">More Details</a>
-                <br class="clr">
-                <a href="#" name="detail"></a>
-                <hr class="soft">
+                <div class="control-group">
+                <label class="control-label"><span>${{ product.price|floatformat:2 }}</span></label>
+                <div class="controls">
+                <label>
+                    <input type="number" class="span1"
+                           placeholder="Qty."
+                           value="Qty.">
+                </label>
+                <labe>
+                </labe>
+                <a href="{% url 'basket_create' product.id %}">
+            <button type="button" class="btn btn-large btn-primary pull-right">
+                Added<i
+                    class=" icon-shopping-cart"></i></button>
+            </a>
             </div>
-
-            <div class="span9">
-                <ul id="productDetail" class="nav nav-tabs">
-                    <li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
-                    <li><a href="#profile" data-toggle="tab">Related Products</a></li>
-                </ul>
-                <div id="myTabContent" class="tab-content">
-                    <div class="tab-pane fade active in" id="home">
-                        <h4>Product Information</h4>
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr class="techSpecRow">
-                                <th colspan="2" style="text-align: center; vertical-align: middle;">Product Details</th>
-                            </tr>
-                            {% for key, value in product.details.items %}
-                                <tr class="techSpecRow">
-                                <td class="techSpecTD1"
-                                    style="text-align: center; vertical-align: middle;">{{ key }}</td>
-                                <td class="techSpecTD2"
-                                    style="text-align: center; vertical-align: middle;">{{ value }}</td>
-                            {% endfor %}
-                            </tr>
-                            </tbody>
-                        </table>
-                        {{ product.description|safe }}
+            </div>
+            </form>
+                    {% endif %}
+            {% else %}
+            <form class="form-horizontal qtyFrm">
+                <div class="control-group">
+                    <label class="control-label"><span>${{ product.price|floatformat:2 }}</span></label>
+                    <div class="controls">
+                        <label>
+                            <input type="number" class="span1"
+                                   placeholder="Qty.">
+                        </label>
+                        <a href="{% url 'register' %}">
+                            <button type="button"
+                                    class="btn btn-large btn-primary pull-right">
+                                Add to<i
+                                    class=" icon-shopping-cart"></i></button>
+                        </a>
                     </div>
-                    <div class="tab-pane fade" id="profile">
-                        <div id="myTab" class="pull-right">
-                            <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i
-                                    class="icon-list"></i></span></a>
-                            <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i
-                                    class="icon-th-large"></i></span></a>
-                        </div>
-                        <br class="clr">
-                        <hr class="soft">
-                        <div class="tab-content">
-                            <div class="tab-pane" id="listView">
-                                {% for product in product.category.product_set.all|slice:":6" %}
-                                    <div class="row">
-                                        <div class="span2">
-                                            <img src="{{ product.image.url }}" alt="">
-                                        </div>
-                                        <div class="span4">
-                                            <h4>{{ product.name }} </h4>
-                                            <p>
-                                                {{ product.description|truncatechars:450|safe }}
-                                            </p>
-                                            <a class="btn btn-small pull-right"
-                                               href="{% url 'product_detail' product.id %}">View
-                                                Details</a>
-                                            <br class="clr">
-                                        </div>
-                                        <div class="span3 alignR">
-                                            <form class="form-horizontal qtyFrm">
-                                                <h3> ${{ product.price|floatformat:2 }}</h3>
-                                                <label class="checkbox">
-                                                    <input type="checkbox"> Adds product to compair
-                                                </label><br>
-                                                <div class="btn-group">
-                                                    <a href="{% url 'basket_create' product.id %}"
-                                                       class="btn btn-large btn-primary">
-                                                        {% if product.id|has_cart:user %}
-                                                            Added{% else %}Add to{% endif %}
-                                                        <i class=" icon-shopping-cart"></i></a>
-                                                    <a href="{% url 'product_detail' product.id %}"
-                                                       class="btn btn-large"><i
-                                                            class="icon-zoom-in"></i></a>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <hr class="soft">
-                                {% endfor %}
-                            </div>
-                            <div class="tab-pane active" id="blockView">
-                                <ul class="thumbnails">
-                                    {% for product in product.category.product_set.all|slice:":6" %}
-                                        <li class="span3">
-                                            <div class="thumbnail">
-                                                <a href="{% url 'product_detail' product.id %}"><img
-                                                        src="{{ product.image.url }}"
-                                                        alt=""></a>
-                                                <div class="caption">
-                                                    <h5>{{ product.name }}</h5>
-                                                    <p>
-                                                        {{ product.description|truncatechars:250|safe }}
-                                                    </p>
-                                                    <h4 style="text-align:center"><a class="btn"
-                                                                                     href="{% url 'product_detail' product.id %}">
-                                                        <i
-                                                                class="icon-zoom-in"></i></a> <a class="btn" href="#">Add
-                                                        to
-                                                        <i
-                                                                class="icon-shopping-cart"></i></a> <a
-                                                            class="btn btn-primary"
-                                                            href="#">${{ product.price|floatformat:2 }}</a></h4>
-                                                </div>
-                                            </div>
-                                        </li>
+                </div>
+            </form>
+            {% endif %}
+            <hr class="soft">
+            <h4>{{ product.count }} items in stock</h4>
+            <form class="form-horizontal qtyFrm pull-right">
+                <div class="control-group">
+                    <label class="control-label"><span>Color</span></label>
+                    <div class="controls">
+                        {% if product.color|length > 0 %}
+                            <label>
+                                <select class="span2" style="visibility: visible;">
+                                    {% for color in product.color %}
+                                        <option>{{ color }}</option>
                                     {% endfor %}
-                                </ul>
-                                <hr class="soft">
-                            </div>
-                        </div>
-                        <br class="clr">
+                                </select>
+                            </label>
+                        {% endif %}
                     </div>
+                </div>
+            </form>
+            <hr class="soft clr">
+            <p>{{ product.description|truncatechars:450|safe }}</p>
+            <a class="btn btn-small pull-right" href="#detail">More Details</a>
+            <br class="clr">
+            <a href="#" name="detail"></a>
+            <hr class="soft">
+        </div>
+
+        <div class="span9">
+            <ul id="productDetail" class="nav nav-tabs">
+                <li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
+                <li><a href="#profile" data-toggle="tab">Related Products</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="home">
+                    <h4>Product Information</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr class="techSpecRow">
+                            <th colspan="2" style="text-align: center; vertical-align: middle;">Product Details</th>
+                        </tr>
+                        {% for key, value in product.details.items %}
+                            <tr class="techSpecRow">
+                            <td class="techSpecTD1"
+                                style="text-align: center; vertical-align: middle;">{{ key }}</td>
+                            <td class="techSpecTD2"
+                                style="text-align: center; vertical-align: middle;">{{ value }}</td>
+                        {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>
+                    {{ product.description|safe }}
+                </div>
+                <div class="tab-pane fade" id="profile">
+                    <div id="myTab" class="pull-right">
+                        <a href="#listView" data-toggle="tab"><span class="btn btn-large"><i
+                                class="icon-list"></i></span></a>
+                        <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i
+                                class="icon-th-large"></i></span></a>
+                    </div>
+                    <br class="clr">
+                    <hr class="soft">
+                    <div class="tab-content">
+                        <div class="tab-pane" id="listView">
+                            {% for product in product.category.product_set.all|slice:":6" %}
+                                <div class="row">
+                                    <div class="span2">
+                                        <img src="{{ product.image.url }}" alt="">
+                                    </div>
+                                    <div class="span4">
+                                        <h4>{{ product.name }} </h4>
+                                        <p>
+                                            {{ product.description|truncatechars:450|safe }}
+                                        </p>
+                                        <a class="btn btn-small pull-right"
+                                           href="{% url 'product_detail' product.id %}">View
+                                            Details</a>
+                                        <br class="clr">
+                                    </div>
+                                    <div class="span3 alignR">
+                                        <form class="form-horizontal qtyFrm">
+                                            <h3> ${{ product.price|floatformat:2 }}</h3>
+                                            <label class="checkbox">
+                                                <input type="checkbox"> Adds product to compair
+                                            </label><br>
+                                            <div class="btn-group">
+                                                <a href="{% url 'basket_create' product.id %}"
+                                                   class="btn btn-large btn-primary">
+                                                    {% if product.id|has_cart:user %}
+                                                        Added{% else %}Add to{% endif %}
+                                                    <i class=" icon-shopping-cart"></i></a>
+                                                <a href="{% url 'product_detail' product.id %}"
+                                                   class="btn btn-large"><i
+                                                        class="icon-zoom-in"></i></a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <hr class="soft">
+                            {% endfor %}
+                        </div>
+                        <div class="tab-pane active" id="blockView">
+                            <ul class="thumbnails">
+                                {% for product in product.category.product_set.all|slice:":6" %}
+                                    <li class="span3">
+                                        <div class="thumbnail">
+                                            <a href="{% url 'product_detail' product.id %}"><img
+                                                    src="{{ product.image.url }}"
+                                                    alt=""></a>
+                                            <div class="caption">
+                                                <h5>{{ product.name }}</h5>
+                                                <p>
+                                                    {{ product.description|truncatechars:250|safe }}
+                                                </p>
+                                                <h4 style="text-align:center"><a class="btn"
+                                                                                 href="{% url 'product_detail' product.id %}">
+                                                    <i
+                                                            class="icon-zoom-in"></i></a> <a class="btn" href="#">Add
+                                                    to
+                                                    <i
+                                                            class="icon-shopping-cart"></i></a> <a
+                                                        class="btn btn-primary"
+                                                        href="#">${{ product.price|floatformat:2 }}</a></h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <hr class="soft">
+                        </div>
+                    </div>
+                    <br class="clr">
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

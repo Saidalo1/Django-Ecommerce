@@ -16,10 +16,13 @@ class BasketCreateView(LoginRequiredMixin, View):
         cart, created = Basket.objects.get_or_create(user=self.request.user, product_id=kwargs['pk'])
         if not created:
             cart.delete()
-        return redirect(self.request.GET.get('url', 'products'))
+        current_url = self.request.headers.get('Referer') if self.request.headers.get('Referer') else 'basket'
+        return redirect(current_url)
 
     def post(self, *args, **kwargs):
-        product_basket_count = self.request.POST.get('product_basket_count')
+        product_count = self.request.POST.get('product_basket_count')
+        product_basket_count = product_count if product_count and product_count.isdigit() else 1
         Basket.objects.update_or_create(user=self.request.user, product_id=kwargs['pk'],
                                         count=product_basket_count)
-        return redirect(self.request.GET.get('url', 'basket'))
+        current_url = self.request.headers.get('Referer') if self.request.headers.get('Referer') else 'products'
+        return redirect(current_url)
