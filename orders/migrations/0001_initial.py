@@ -8,7 +8,7 @@ from django.contrib.postgres.operations import HStoreExtension
 from django.db import migrations, models
 import django.db.models.deletion
 import mptt.fields
-import orders.models.computer_spare_part_handbook
+import orders.models.product_handbook
 import shared.django.fields
 import shared.django.functions
 
@@ -96,7 +96,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('amount', models.FloatField(default=0)),
                 ('type', models.CharField(choices=[('payme', 'Payme')], max_length=85,
-                                          verbose_name=orders.models.computer_spare_part_handbook.Payments.PaymentType)
+                                          verbose_name=orders.models.product_handbook.Payments.PaymentType)
                  ),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

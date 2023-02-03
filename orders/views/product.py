@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.views.generic import ListView, DetailView
 
 from orders.models import Product
@@ -43,3 +44,7 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/product_details.html'
     context_object_name = 'product'
+
+    def get(self, request, *args, **kwargs):
+        Product.objects.filter(id=kwargs.get('pk')).update(views=F('views') + 1)
+        return super().get(request, *args, **kwargs)
