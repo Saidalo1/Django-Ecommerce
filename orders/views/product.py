@@ -2,9 +2,10 @@ from django.db.models import F
 from django.views.generic import ListView, DetailView
 
 from orders.models import Product
+from orders.utils import DataMixin
 
 
-class IndexListView(ListView):
+class IndexListView(DataMixin, ListView):
     template_name = 'index.html'
     context_object_name = 'products'
     queryset = Product.objects.values('id', 'name', 'description', 'image', 'price')[:16]
@@ -17,7 +18,7 @@ class IndexListView(ListView):
         return context
 
 
-class ProductListView(ListView):
+class ProductListView(DataMixin, ListView):
     model = Product
     queryset = Product.objects.values('id', 'name', 'description', 'image', 'price')
     template_name = 'product/products.html'
@@ -40,7 +41,7 @@ class ProductListView(ListView):
         return object_list
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(DataMixin, DetailView):
     model = Product
     template_name = 'product/product_details.html'
     context_object_name = 'product'

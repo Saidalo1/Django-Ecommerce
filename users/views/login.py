@@ -2,11 +2,12 @@ from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 
+from orders.utils import DataMixin
 from users.forms import AuthLoginForm
 from users.mixins import AuthUserMixin
 
 
-class CustomLoginView(AuthUserMixin, FormView):
+class CustomLoginView(DataMixin, AuthUserMixin, FormView):
     form_class = AuthLoginForm
     template_name = 'auth/login.html'
     success_url = reverse_lazy('index')

@@ -4,14 +4,15 @@ from django.views import View
 from django.views.generic import ListView
 
 from orders.models import Basket
+from orders.utils import DataMixin
 
 
-class BasketListView(ListView):
+class BasketListView(DataMixin, ListView):
     model = Basket
     template_name = 'product/basket.html'
 
 
-class BasketCreateView(LoginRequiredMixin, View):
+class BasketCreateView(DataMixin, LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         cart, created = Basket.objects.get_or_create(user=self.request.user, product_id=kwargs['pk'])
         if not created:

@@ -7,12 +7,13 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import FormView
 
+from orders.utils import DataMixin
 from users.forms import CustomUserCreationForm
 from users.mixins import AuthUserMixin
 from users.utils.tokens import account_activation_token
 
 
-class RegisterView(SuccessMessageMixin, AuthUserMixin, FormView):
+class RegisterView(DataMixin, SuccessMessageMixin, AuthUserMixin, FormView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'auth/register.html'

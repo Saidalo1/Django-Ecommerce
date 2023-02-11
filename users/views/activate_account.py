@@ -3,12 +3,13 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views import View
 
+from orders.utils import DataMixin
 from users.mixins import AuthUserMixin
 from users.models import User
 from users.utils.tokens import account_activation_token
 
 
-class ActivateUserView(AuthUserMixin, View):
+class ActivateUserView(DataMixin, AuthUserMixin, View):
     def get(self, request, uidb64, token):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
