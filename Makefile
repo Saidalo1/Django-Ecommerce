@@ -1,4 +1,7 @@
 command mig:
-	python manage.py makemigrations
-	python manage.py migrate
+	python3 manage.py makemigrations
+	python3 manage.py migrate
 	@echo ************  Successfully made migrations and migrated  ************
+
+command admin:
+	python3 manage.py createsuperuser
