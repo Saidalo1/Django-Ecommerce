@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ckeditor',  # for description with html codes
     'django.contrib.postgres',  # for HStoreField
     'django_admin_hstore_widget',  # for hstore widget in admin.py
+    'debug_toolbar',  # for django debug toolbar
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # For Django Debug Toolbar
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'root.urls'
@@ -144,3 +148,18 @@ LOGIN_URL = reverse_lazy('login')
 
 # Slash
 APPEND_SLASH = True
+
+# Cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, env('CACHE_FOLDER')),
+    }
+}
+
+# For Django Debug Toolbar
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

@@ -219,3 +219,6 @@ media/
 
 # .idea
 .idea/
+
+# caches page
+caches/

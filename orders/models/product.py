@@ -36,7 +36,7 @@ class Product(TimeBaseModel):
     color = ChoiceArrayField(CharField(max_length=32, choices=ColorsChoices.choices, default=list))
     image = ImageField(upload_to=upload_image_product_url)
     views = IntegerField(default=0)
-    category = ForeignKey('orders.SubCategory', CASCADE)
+    category = ForeignKey('orders.SubCategory', CASCADE, db_index=True)
     details = HStoreField('details of product')
     sale_percent = IntegerField(default=0, validators=[
         MaxValueValidator(100),

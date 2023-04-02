@@ -1,4 +1,4 @@
-from django.db.models import F
+from django.db.models import F, Count
 from django.views.generic import ListView, DetailView
 
 from orders.models import Product
@@ -12,9 +12,10 @@ class IndexListView(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
-        products = context['products']
-        if products.count() > 7:
-            context['featured_products'] = [products[i:i + 4] for i in range(0, len(products), 4)]
+        products = Product.objects.annotate(total_sales=Count('order')).order_by('-total_sales').values('id', 'name',
+                                                                                                        'price',
+                                                                                                        'image')[:16]
+        context['featured_products'] = [products[i:i + 4] for i in range(0, 16, 4)]
         return context
 
 

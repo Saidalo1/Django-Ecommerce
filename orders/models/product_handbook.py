@@ -80,8 +80,8 @@ class Comments(TimeBaseModel, MPTTModel):
 
 
 class Basket(Model):
-    product = ForeignKey('orders.Product', CASCADE)
-    user = ForeignKey(User, CASCADE)
+    product = ForeignKey('orders.Product', CASCADE, db_index=True)
+    user = ForeignKey(User, CASCADE, db_index=True)
     count = IntegerField(default=1)
 
     def __str__(self):
