@@ -1,6 +1,6 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
-from django.db.models import BooleanField, EmailField
+from django.db.models import BooleanField, EmailField, Sum, F
 from django.db.models import CharField
 from django.utils.translation import gettext_lazy as _
 
@@ -49,7 +49,9 @@ class User(AbstractUser):
 
     @property
     def total_price_of_all_products(self):
-        total_price = sum(item.total_price_of_products for item in self.basket_set.all())
+        total_price = self.basket_set.aggregate(
+            total_price=Sum(F('product__price') * F('count') * (100 - F('product__sale_percent')) / 100)
+        )['total_price'] or 0
         return total_price
 
     def save(self, *args, **kwargs):
